@@ -7,19 +7,34 @@
             background-color: #fce4ec;
             font-family: sans-serif;
             text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        /* Fixes the "Crashing" - This container allows items to wrap neatly */
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .product-card {
             background-color: white;
             padding: 20px;
-            margin: 20px;
-            display: inline-block;
-            width: 200px;
-            vertical-align: top;
+            border-radius: 15px;
+            width: 220px; /* Slightly wider for better look */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
         }
         .product-card img {
             width: 100%;
             height: 200px;
-            object-fit: contain;
+            object-fit: cover; /* Changed from contain to cover for a premium look */
             border-radius: 10px;
         }
         .buy-btn {
@@ -27,35 +42,35 @@
             color: white;
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
+            font-weight: bold;
+            width: 100%;
             margin-top: 10px;
         }
         .footer {
             background-color: black;
             color: white;
-            padding: 20px;
+            padding: 40px 20px;
             text-align: center;
             margin-top: 50px;
         }
-        h1 {
-            font-family: sans-serif;
-            font-size: 50px;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            font-weight: lighter;
-        }
-        h3 {
-            font-family: sans-serif;
-            font-weight: lighter;
-            color: grey;
+        h1 { font-size: 40px; letter-spacing: 5px; text-transform: uppercase; color: deeppink; margin-top: 40px; }
+        h2.category-title { 
+            color: deeppink; 
+            text-align: left; 
+            margin-left: 5%; 
+            border-bottom: 2px solid pink; 
+            width: 90%; 
+            margin-top: 50px; 
+            padding-bottom: 10px;
         }
         
-        /* EXACT RECEIPT FROM YOUR LOG & SCREENSHOT */
+        /* RECEIPT STYLING */
         #receipt-box {
             position: fixed;
-            bottom: 20px;       
-            right: 20px;        
+            bottom: 80px; /* Moved up to make room for WA button */
+            right: 20px;       
             background-color: #fffdf0; 
             border: 1px solid #ddd;    
             border-top: 4px dashed pink; 
@@ -65,169 +80,162 @@
             font-family: 'Courier New', Courier, monospace;
             z-index: 100;
         }
-        #cart-list {
-            list-style-type: disc; 
-            padding-left: 20px;
-            text-align: left;
-            font-size: 14px;
-        }
-        #cart-list li {
-            margin-bottom: 5px;
+        #cart-list { list-style-type: none; padding: 0; text-align: left; font-size: 13px; }
+        
+        /* FLOATING WHATSAPP CHECKOUT BUTTON */
+        .wa-checkout {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25d366;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            border: none;
         }
     </style>
 </head>
 <body>
-<header style="background: url('logo.png'); background-size: cover; background-position: center; height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; font-family: sans-serif; position: relative;">
-    <div style="background: rgba(0,0,0,0.1); width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <button style="margin-top: 150px; background: #ff85a2; color: white; border: none; padding: 15px 40px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onclick="document.getElementById('shop').scrollIntoView({behavior: 'smooth'})">
-            Shop the Collection
-        </button>
-    </div>
+
+<header id="shop" style="background: url('logo.png'); background-size: cover; background-position: center; height: 60vh; display: flex; align-items: center; justify-content: center; position: relative;">
+    <button style="margin-top: 150px; background: #ff85a2; color: white; border: none; padding: 15px 40px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onclick="document.getElementById('welcome').scrollIntoView({behavior: 'smooth'})">
+        Shop the Collection
+    </button>
 </header>
 
-<div id="products" style="padding-top: 50px;"></div>
+<h1 id="welcome">Welcome to Divara</h1>
+<h3 style="font-weight: lighter; color: grey;">Quality Beauty Essentials</h3>
 
-    <div id="receipt-box">
-        <h3 style="text-align: center; margin-top: 0; color: black;">🌸 DIVARA 🌸</h3>
-        <p style="text-align: center; font-size: 10px;">OFFICIAL RECEIPT</p>
-        <hr style="border-top: 1px dashed black;">
+<div id="receipt-box">
+    <h3 style="text-align: center; margin-top: 0; color: black; font-size: 16px;">🌸 DIVARA 🌸</h3>
+    <p style="text-align: center; font-size: 10px;">OFFICIAL RECEIPT</p>
+    <hr style="border-top: 1px dashed black;">
+    <ul id="cart-list"></ul>
+    <hr style="border-top: 1px solid black;">
+    <p style="text-align: right; font-size: 14px;">TOTAL: <strong>KES <span id="total-price">0</span></strong></p>
+</div>
 
-        <ul id="cart-list"></ul>
-        
-        <hr style="border-top: 1px solid black;">
-        
-        <p style="text-align: right; font-size: 14px;">TOTAL: <strong>KES <span id="total-price">0</span></strong></p>
-        
-        <p style="text-align: center; font-size: 10px; margin-bottom: 0;">Thank you for shopping!</p>
-    </div>
+<button class="wa-checkout" onclick="checkout()">
+    Complete Order on WhatsApp 💬
+</button>
 
-    <h1 style="color:deeppink;">Welcome to Divara</h1>
-    <h2 style="color:pink;">We are open</h2>
-    <h2 style="color: deeppink; text-align: left; margin-left: 5%; border-bottom: 2px solid pink; width: 90%;">✨ Fragrance</h2>
-    
+<h2 class="category-title">✨ Fragrance</h2>
+<div class="product-grid">
     <div class="product-card">
         <img src="perfume.jpg" alt="Perfume">
-        <h3> Divara Good Girl Essence </h3>
-        <p>Price: KES 2000</p>
+        <h3>Divara Essence</h3>
+        <p>KES 2,000</p>
         <button class="buy-btn" onclick="addToCart('Divara Essence', 2000)">Add to Cart</button>
     </div>
+</div>
 
-    <h2 style="color: deeppink; text-align: left; margin-left: 5%; border-bottom: 2px solid pink; width: 90%; margin-top: 40px;">💄 Beauty Products</h2>
-
+<h2 class="category-title">💄 Beauty Products</h2>
+<div class="product-grid">
     <div class="product-card">
         <img src="Lipgloss.jpeg" alt="Lip Gloss">
-        <h3> Lip Gloss </h3>
-        <p>Price: KES 120</p>
+        <h3>Lip Gloss</h3>
+        <p>KES 120</p>
         <button class="buy-btn" onclick="addToCart('Lip Gloss', 120)">Add to Cart</button>
     </div>
-
     <div class="product-card">
         <img src="Lip Therapy.jpeg" alt="Lip Therapy">
-        <h3>Lip Therapy </h3>
-        <p>Price: KES 500</p>
+        <h3>Lip Therapy</h3>
+        <p>KES 500</p>
         <button class="buy-btn" onclick="addToCart('Lip Therapy', 500)">Add to Cart</button>
     </div>
+</div>
 
-    <h2 style="color: deeppink; text-align: left; margin-left: 5%; border-bottom: 2px solid pink; width: 90%; margin-top: 40px;">🎀 Girly Essentials</h2>
-
+<h2 class="category-title">🎀 Girly Essentials</h2>
+<div class="product-grid">
     <div class="product-card">
         <img src="Black Tote Bag.jpg" alt="Tote Bag">
-        <h3> Black Tote Bag </h3>
-        <p>Price: KES 1000</p>
+        <h3>Black Tote Bag</h3>
+        <p>KES 1,000</p>
         <button class="buy-btn" onclick="addToCart('Black Tote Bag', 1000)">Add to Cart</button>
     </div>
-
     <div class="product-card">
         <img src="phonecase.jpg" alt="Phone Case">
-        <h3> phonecase </h3>
-        <p>Price: KES 700</p>
+        <h3>Phone Case</h3>
+        <p>KES 700</p>
         <button class="buy-btn" onclick="addToCart('Phone Case', 700)">Add to Cart</button>
     </div>
+</div>
 
-    <br><br>
-    <br><br>
+<div class="footer">
+    <h3 style="color: white; margin-top:0;">Contact Divara</h3>
+    <p>Location: Juja, Kenya</p>
+    <p>Whatsapp: 0114654307</p>
+    <p>&copy; 2026 Divara Shop</p>
+</div>
 
-    <button onclick="checkout()" style="background-color: green; color: white; padding: 15px; border: none; cursor: pointer; margin-top: 20px; font-size: 16px; border-radius: 5px; width: 50%; display: block; margin-left: auto; margin-right: auto;">
-        <b>Checkout on WhatsApp 💬</b>
-    </button>
+<script>
+    let total = 0;
 
-    <div class="footer">
-        <h3 style="color: white;">Contact Divara</h3>
-        <p>Location: Juja, Kenya</p>
-        <p>Whatsapp: 0114654307</p>
-        <p>&copy;2026 Divara Shop</p>
-    </div>
-
-    <script>
-        let total = 0;
-
-        // 1. WHEN THE PAGE LOADS: Check the filing cabinet!
-        window.onload = function() {
-            if(localStorage.getItem("divaraTotal")) {
-                // If there is memory, load the total money and the list
-                total = parseInt(localStorage.getItem("divaraTotal"));
-                document.getElementById("total-price").innerText = total;
-                document.getElementById("cart-list").innerHTML = localStorage.getItem("divaraCart");
-            }
-        }
-
-        function addToCart(productName, price) {
-            total = total + price;
+    window.onload = function() {
+        if(localStorage.getItem("divaraTotal")) {
+            total = parseInt(localStorage.getItem("divaraTotal"));
             document.getElementById("total-price").innerText = total;
-            
-            let list = document.getElementById("cart-list");
-            let newItem = document.createElement("li");
-            newItem.innerHTML = `${productName} - KES ${price} <button style="color:red; cursor:pointer; border:none; background:none; font-size: 12px; margin-left: 10px;" onclick="removeFromCart(this, ${price})">❌</button>`;
-            
-            list.appendChild(newItem);
+            document.getElementById("cart-list").innerHTML = localStorage.getItem("divaraCart");
+        }
+    }
 
-            // 2. SAVE TO MEMORY: Update the filing cabinet
-            localStorage.setItem("divaraTotal", total);
-            localStorage.setItem("divaraCart", list.innerHTML);
+    function addToCart(productName, price) {
+        total = total + price;
+        document.getElementById("total-price").innerText = total;
+        
+        let list = document.getElementById("cart-list");
+        let newItem = document.createElement("li");
+        newItem.style.marginBottom = "8px";
+        newItem.innerHTML = `${productName} - KES ${price} <span style="color:red; cursor:pointer; font-weight:bold; margin-left: 10px;" onclick="removeFromCart(this, ${price})">×</span>`;
+        
+        list.appendChild(newItem);
+        localStorage.setItem("divaraTotal", total);
+        localStorage.setItem("divaraCart", list.innerHTML);
+    }
+
+    function removeFromCart(span, price) {
+        total = total - price;
+        document.getElementById("total-price").innerText = total;
+        let listItem = span.parentElement;
+        listItem.remove();
+        let list = document.getElementById("cart-list");
+        localStorage.setItem("divaraTotal", total);
+        localStorage.setItem("divaraCart", list.innerHTML);
+    }
+
+    function checkout() {
+        let listItems = document.querySelectorAll("#cart-list li");
+        if (listItems.length === 0) {
+            alert("Your receipt is empty! Add some items first.");
+            return;
         }
 
-        function removeFromCart(button, price) {
-            total = total - price;
-            document.getElementById("total-price").innerText = total;
-            
-            let listItem = button.parentElement;
-            listItem.remove();
+        let message = "Hello Divara! I'd like to place an order:%0A%0A"; 
+        listItems.forEach(function(item) {
+            let text = item.innerText.replace("×", "").trim();
+            message += "🌸 " + text + "%0A";
+        });
+        message += "%0A*Total: KES " + total + "*%0A%0APlease confirm my order!";
 
-            // 3. UPDATE MEMORY: Save the new list after deleting
-            let list = document.getElementById("cart-list");
-            localStorage.setItem("divaraTotal", total);
-            localStorage.setItem("divaraCart", list.innerHTML);
-        }
+        localStorage.removeItem("divaraTotal");
+        localStorage.removeItem("divaraCart");
 
-        function checkout() {
-            let listItems = document.querySelectorAll("#cart-list li");
-            
-            if (listItems.length === 0) {
-                alert("Cart is empty!");
-                return;
-            }
-
-            let message = "Hello Divara! I want to order:%0A"; 
-            listItems.forEach(function(item) {
-                let text = item.innerText.replace("❌", "").trim();
-                message += "- " + text + "%0A";
-            });
-            message += "%0A*Total: KES " + total + "*";
-
-            // 4. CLEAR MEMORY: Empty the cart after they check out
-            localStorage.removeItem("divaraTotal");
-            localStorage.removeItem("divaraCart");
-
-            window.open("https://wa.me/254114654307?text=" + message, "_blank");
-            
-            // Refresh the page to show an empty cart
-            setTimeout(() => { location.reload(); }, 1000); 
-        }
-    </script>
+        window.open("https://wa.me/254114654307?text=" + message, "_blank");
+        setTimeout(() => { location.reload(); }, 1000); 
+    }
+</script>
 
 </body>
 </html>
         
+
 
 
 
