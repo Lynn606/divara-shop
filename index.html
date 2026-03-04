@@ -1,42 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Divara Shop</title>
+    <title>Divara Beauty Shop</title>
     <style>
         body {
-    background-color: #e5c1b9; 
-    font-family: sans-serif;
-    color: #4a342f; 
-}
-        
+            background-color: #dfb3aa; /* Matches your logo background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            color: #432a26; /* Deep cocoa text for better legibility */
+        }
         .product-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
             padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
         }
         .product-card {
             background-color: white;
             padding: 20px;
             border-radius: 15px;
-            width: 220px; /* Slightly wider for better look */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
+            width: 220px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         .product-card img {
             width: 100%;
             height: 200px;
-            object-fit: cover; /* Changed from contain to cover for a premium look */
+            object-fit: cover;
             border-radius: 10px;
         }
         .buy-btn {
-            background-color: deeppink;
+            background-color: #8d584d; /* Rose Gold/Copper from logo text */
             color: white;
             padding: 10px 20px;
             border: none;
@@ -46,33 +41,27 @@
             width: 100%;
             margin-top: 10px;
         }
-        .footer {
-            background-color: black;
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            margin-top: 50px;
+        .category-title { 
+            color: #8d584d; 
+            text-align: left; 
+            margin-left: 5%; 
+            border-bottom: 2px solid #d4a59a; 
+            width: 90%; 
+            margin-top: 40px;
+            padding-bottom: 5px;
         }
-        h1 { font-size: 40px; letter-spacing: 5px; text-transform: uppercase; color: deeppink; margin-top: 40px; }
-       h2.category-title { 
-    color: #9e6d62; 
-    border-bottom: 2px solid #d4a59a;
-}
-
-.buy-btn {
-    background-color: #9e6d62; 
-    color: white;
-    border-radius: 25px;
-}
-        
         #receipt-box {
-    background-color: #ffffff; 
-    border-top: 4px dashed #d4a59a; 
-    /* ... rest stays same ... */
-}
-        #cart-list { list-style-type: none; padding: 0; text-align: left; font-size: 13px; }
-        
-        /* FLOATING WHATSAPP CHECKOUT BUTTON */
+            position: fixed;
+            bottom: 85px;
+            right: 20px;       
+            background-color: #fffdf0; 
+            border-top: 4px dashed #8d584d; 
+            width: 220px;
+            padding: 15px;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.2); 
+            font-family: 'Courier New', Courier, monospace;
+            z-index: 100;
+        }
         .wa-checkout {
             position: fixed;
             bottom: 20px;
@@ -83,50 +72,45 @@
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             z-index: 1001;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
             border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
+        .footer { background-color: #432a26; color: white; padding: 30px; margin-top: 50px; }
     </style>
 </head>
 <body>
 
-<header id="shop" style="background: url('logo.png'); background-size: cover; background-position: center; height: 60vh; display: flex; align-items: center; justify-content: center; position: relative;">
-    <button style="margin-top: 150px; background: #ff85a2; color: white; border: none; padding: 15px 40px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onclick="document.getElementById('welcome').scrollIntoView({behavior: 'smooth'})">
-        Shop the Collection
+<header style="background: url('logo.png'); background-size: cover; background-position: center; height: 50vh; display: flex; align-items: center; justify-content: center;">
+    <button style="background: #8d584d; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: bold;" onclick="document.getElementById('welcome').scrollIntoView({behavior: 'smooth'})">
+        Shop Collection
     </button>
 </header>
 
-<h1 id="welcome">Welcome to Divara</h1>
-<h3 style="font-weight: lighter; color: grey;">Quality Beauty Essentials</h3>
+<h1 id="welcome" style="letter-spacing: 3px; text-transform: uppercase;">Divara Beauty</h1>
 
 <div id="receipt-box">
-    <h3 style="text-align: center; margin-top: 0; color: black; font-size: 16px;">🌸 DIVARA 🌸</h3>
-    <p style="text-align: center; font-size: 10px;">OFFICIAL RECEIPT</p>
-    <hr style="border-top: 1px dashed black;">
-    <ul id="cart-list"></ul>
-    <hr style="border-top: 1px solid black;">
-    <p style="text-align: right; font-size: 14px;">TOTAL: <strong>KES <span id="total-price">0</span></strong></p>
+    <h3 style="margin:0;">🌸 DIVARA 🌸</h3>
+    <p style="font-size: 10px;">OFFICIAL RECEIPT</p>
+    <ul id="cart-list" style="list-style:none; padding:0; font-size:12px; text-align:left;"></ul>
+    <hr>
+    <p style="text-align:right;">TOTAL: KES <span id="total-price">0</span></p>
 </div>
 
-<button class="wa-checkout" onclick="checkout()">
-    Complete Order on WhatsApp 💬
-</button>
+<button class="wa-checkout" onclick="checkout()">Order via WhatsApp 💬</button>
 
 <h2 class="category-title">✨ Fragrance</h2>
 <div class="product-grid">
     <div class="product-card">
         <img src="perfume.jpg" alt="Perfume">
-        <h3>Divara Essence</h3>
+        <h3>Good Girl Essence</h3>
         <p>KES 2,000</p>
-        <button class="buy-btn" onclick="addToCart('Divara Essence', 2000)">Add to Cart</button>
+        <button class="buy-btn" onclick="addToCart('Essence Perfume', 2000)">Add to Cart</button>
     </div>
 </div>
 
-<h2 class="category-title">💄 Beauty Products</h2>
+<h2 class="category-title">💄 Beauty</h2>
 <div class="product-grid">
     <div class="product-card">
         <img src="Lipgloss.jpeg" alt="Lip Gloss">
@@ -142,32 +126,13 @@
     </div>
 </div>
 
-<h2 class="category-title">🎀 Girly Essentials</h2>
-<div class="product-grid">
-    <div class="product-card">
-        <img src="Black Tote Bag.jpg" alt="Tote Bag">
-        <h3>Black Tote Bag</h3>
-        <p>KES 1,000</p>
-        <button class="buy-btn" onclick="addToCart('Black Tote Bag', 1000)">Add to Cart</button>
-    </div>
-    <div class="product-card">
-        <img src="phonecase.jpg" alt="Phone Case">
-        <h3>Phone Case</h3>
-        <p>KES 700</p>
-        <button class="buy-btn" onclick="addToCart('Phone Case', 700)">Add to Cart</button>
-    </div>
-</div>
-
 <div class="footer">
-    <h3 style="color: white; margin-top:0;">Contact Divara</h3>
-    <p>Location: Juja, Kenya</p>
-    <p>Whatsapp: 0114654307</p>
+    <p>Location: Juja, Kenya | WhatsApp: 0114654307</p>
     <p>&copy; 2026 Divara Shop</p>
 </div>
 
 <script>
     let total = 0;
-
     window.onload = function() {
         if(localStorage.getItem("divaraTotal")) {
             total = parseInt(localStorage.getItem("divaraTotal"));
@@ -176,55 +141,38 @@
         }
     }
 
-    function addToCart(productName, price) {
-        total = total + price;
+    function addToCart(name, price) {
+        total += price;
         document.getElementById("total-price").innerText = total;
-        
         let list = document.getElementById("cart-list");
-        let newItem = document.createElement("li");
-        newItem.style.marginBottom = "8px";
-        newItem.innerHTML = `${productName} - KES ${price} <span style="color:red; cursor:pointer; font-weight:bold; margin-left: 10px;" onclick="removeFromCart(this, ${price})">×</span>`;
-        
-        list.appendChild(newItem);
+        let item = document.createElement("li");
+        item.innerHTML = `${name} - ${price} <span style="color:red; cursor:pointer;" onclick="removeFromCart(this, ${price})">×</span>`;
+        list.appendChild(item);
         localStorage.setItem("divaraTotal", total);
         localStorage.setItem("divaraCart", list.innerHTML);
     }
 
-    function removeFromCart(span, price) {
-        total = total - price;
+    function removeFromCart(el, price) {
+        total -= price;
         document.getElementById("total-price").innerText = total;
-        let listItem = span.parentElement;
-        listItem.remove();
-        let list = document.getElementById("cart-list");
+        el.parentElement.remove();
         localStorage.setItem("divaraTotal", total);
-        localStorage.setItem("divaraCart", list.innerHTML);
+        localStorage.setItem("divaraCart", document.getElementById("cart-list").innerHTML);
     }
 
     function checkout() {
-        let listItems = document.querySelectorAll("#cart-list li");
-        if (listItems.length === 0) {
-            alert("Your receipt is empty! Add some items first.");
-            return;
-        }
-
-        let message = "Hello Divara! I'd like to place an order:%0A%0A"; 
-        listItems.forEach(function(item) {
-            let text = item.innerText.replace("×", "").trim();
-            message += "🌸 " + text + "%0A";
-        });
-        message += "%0A*Total: KES " + total + "*%0A%0APlease confirm my order!";
-
-        localStorage.removeItem("divaraTotal");
-        localStorage.removeItem("divaraCart");
-
-        window.open("https://wa.me/254114654307?text=" + message, "_blank");
-        setTimeout(() => { location.reload(); }, 1000); 
+        let items = document.querySelectorAll("#cart-list li");
+        if (items.length === 0) return alert("Cart empty!");
+        let msg = "New Order from Divara:%0A";
+        items.forEach(i => msg += "- " + i.innerText.replace("×", "").trim() + "%0A");
+        msg += "%0A*Total: KES " + total + "*";
+        window.open("https://wa.me/254114654307?text=" + msg, "_blank");
     }
 </script>
-
 </body>
 </html>
         
+
 
 
 
