@@ -4,13 +4,11 @@
     <title>Divara Shop</title>
     <style>
         body {
-            background-color: #fce4ec;
-            font-family: sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        /* Fixes the "Crashing" - This container allows items to wrap neatly */
+    background-color: #e5c1b9; 
+    font-family: sans-serif;
+    color: #4a342f; 
+}
+        
         .product-grid {
             display: flex;
             flex-wrap: wrap;
@@ -56,30 +54,22 @@
             margin-top: 50px;
         }
         h1 { font-size: 40px; letter-spacing: 5px; text-transform: uppercase; color: deeppink; margin-top: 40px; }
-        h2.category-title { 
-            color: deeppink; 
-            text-align: left; 
-            margin-left: 5%; 
-            border-bottom: 2px solid pink; 
-            width: 90%; 
-            margin-top: 50px; 
-            padding-bottom: 10px;
-        }
+       h2.category-title { 
+    color: #9e6d62; 
+    border-bottom: 2px solid #d4a59a;
+}
+
+.buy-btn {
+    background-color: #9e6d62; 
+    color: white;
+    border-radius: 25px;
+}
         
-        /* RECEIPT STYLING */
         #receipt-box {
-            position: fixed;
-            bottom: 80px; /* Moved up to make room for WA button */
-            right: 20px;       
-            background-color: #fffdf0; 
-            border: 1px solid #ddd;    
-            border-top: 4px dashed pink; 
-            width: 220px;
-            padding: 15px;
-            box-shadow: 0px 5px 15px rgba(0,0,0,0.2); 
-            font-family: 'Courier New', Courier, monospace;
-            z-index: 100;
-        }
+    background-color: #ffffff; 
+    border-top: 4px dashed #d4a59a; 
+    /* ... rest stays same ... */
+}
         #cart-list { list-style-type: none; padding: 0; text-align: left; font-size: 13px; }
         
         /* FLOATING WHATSAPP CHECKOUT BUTTON */
@@ -235,6 +225,7 @@
 </body>
 </html>
         
+
 
 
 
